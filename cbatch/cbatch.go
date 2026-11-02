@@ -11,9 +11,7 @@ package cbatch
 // #include <limits.h>
 // #include <stdint.h>
 // #include <stdlib.h>
-// void aca_batch_alloc(void ***data, uint32_t data_len);
-// void aca_batch_run(void **data, uint32_t data_len, int32_t passes, uint32_t *err1, uint32_t *err2, uint32_t *err_idx, char **err_str);
-// void aca_batch_free(void **data);
+// #include "aca_batch.h"
 import "C"
 import (
 	"strconv"
@@ -44,9 +42,8 @@ const (
 const (
 	maxInt         = int((^uint(0)) >> 1)
 	maxInt32       = int32((^uint32(0)) >> 1)
-	maxUInt32      = ^uint32(0)
 	SequenceChunks = 2
-	MaxSequenceLen = (min(min(uint64(maxInt), uint64(C.SIZE_MAX)), uint64(maxUInt32)) / SequenceChunks) / uint64(unsafe.Sizeof(unsafe.Pointer(nil)))
+	MaxSequenceLen = min(uint64(maxInt), (uint64(C.SIZE_MAX) / SequenceChunks) / uint64(unsafe.Sizeof(unsafe.Pointer(nil))))
 )
 
 // Task provides abstraction to C functions and its data.
